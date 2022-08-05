@@ -3,6 +3,7 @@ import argparse as arg
 from CONFIG import pickle_database_name
 from database import DatabaseManager
 from show import Show
+from timer import timer
 parser = arg.ArgumentParser()
 parser.add_argument(
     "-c","--create",help="""Creates a database.
@@ -11,7 +12,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "-a","--add",help="""Adds a new entry.
-    Usage: interval. Should be in minutes.""",nargs=3
+    Usage: interval. Should be in minutes.""",nargs=1
 )
 parser.add_argument(
     "-d","--delete",help="""Remove an entry.
@@ -28,7 +29,7 @@ if args.create:
 
 if args.add:
     data = database_manager.read_data_from_database()
-    data.add(args.add)
+    data.add(int(''.join(args.add)))
     database_manager.dump_data_to_database(data)
 
 if args.delete:
@@ -39,4 +40,5 @@ if args.delete:
 if args.show:
     data = database_manager.read_data_from_database()
     show = Show()
-    show.show(data)
+    result = show.show(data)
+    timer(int(result))

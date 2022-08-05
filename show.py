@@ -1,6 +1,7 @@
-from rich import print
-from rich.panel import Panel
+from rich.console import Console
+from simple_term_menu import TerminalMenu
 from datetime import datetime,timedelta
+console = Console()
 class Show:
     @staticmethod
     def _error_handler(func):
@@ -11,13 +12,13 @@ class Show:
                 raise e
         return handler
 
-     @_error_handler
-     def show(self,data):
-        data = sorted(data,key=lambda x:list(x)[0])
-        for entry in enumerate(data):
-            print(
-                Panel(
-                    f"[bold green]{entry} Minutes",
-                ),"\n"
-            )
+    @_error_handler
+    def show(self,data):
+        with console.screen():
+            timers = sorted([[index,timer] for index,timer in enumerate(data)],key=lambda x:x[1])
+            options = [f"Timer: {timer[1]} Minutes" for timer in timers]
+            term_menu = TerminalMenu(options)
+            selected = term_menu.show()
+            return timers[selected][1]
+
 
