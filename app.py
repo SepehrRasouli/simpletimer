@@ -4,6 +4,7 @@ from CONFIG import pickle_database_name
 from database import DatabaseManager
 from show import Show
 from timer import timer
+from waiter import waiter
 parser = arg.ArgumentParser()
 parser.add_argument(
     "-c","--create",help="""Creates a database.
@@ -34,11 +35,12 @@ if args.add:
 
 if args.delete:
     data = database_manager.read_data_from_database()
-    data.remove(data.remove(list(a)[list(a).index(int(args.delete))]))
+    data.remove(data.remove(list(data)[list(data).index(int(args.delete))]))
     database_manager.dump_data_to_database(data)
 
 if args.show:
     data = database_manager.read_data_from_database()
     show = Show()
-    result = show.show(data)
+    result = show.show_menu(data)
     timer(int(result))
+    waiter()
