@@ -13,7 +13,8 @@ class Show:
         return handler
 
     @_error_handler
-    def show(self,data):
+    def show_menu(self,data):
+        """ Shows a menu of timers."""
         with console.screen():
             timers = sorted([[index,timer] for index,timer in enumerate(data)],key=lambda x:x[1])
             options = [f"Timer: {timer[1]} Minutes" for timer in timers]
